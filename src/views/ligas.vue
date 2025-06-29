@@ -6,7 +6,9 @@
         <h1 class="page-title">
           <i class="fas fa-trophy"></i> Ligas Disponibles
         </h1>
-        <p class="page-subtitle">Gestiona y administra tus ligas de fútbol virtual</p>
+        <p class="page-subtitle">
+          Gestiona y administra tus ligas de fútbol virtual
+        </p>
       </div>
 
       <!-- Formulario para crear liga (solo admin) -->
@@ -14,10 +16,10 @@
         <h5 class="card-title-custom">
           <i class="fas fa-plus-circle"></i> Crear Nueva Liga
         </h5>
-        <div class="grid-custom" style="grid-template-columns: 2fr 1fr;">
-          <input 
-            v-model="nuevaLiga" 
-            placeholder="Nombre de la liga" 
+        <div class="grid-custom" style="grid-template-columns: 2fr 1fr">
+          <input
+            v-model="nuevaLiga"
+            placeholder="Nombre de la liga"
             class="form-input-custom"
           />
           <button @click="crearLiga" class="btn-custom">
@@ -28,25 +30,50 @@
 
       <!-- Lista de ligas -->
       <div class="grid-custom">
-        <div v-for="liga in ligasStore.ligas" :key="liga.id" class="custom-card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+        <div
+          v-for="liga in ligasStore.ligas"
+          :key="liga.id"
+          class="custom-card"
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 1.5rem;
+            "
+          >
             <div>
-              <h5 style="color: var(--primary-color); font-size: 1.2rem; margin-bottom: 0.5rem;">
+              <h5
+                style="
+                  color: var(--primary-color);
+                  font-size: 1.2rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
                 <i class="fas fa-futbol"></i> {{ liga.nombre }}
               </h5>
-              <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0">
                 <i class="fas fa-users"></i>
                 {{ liga.equipos ? liga.equipos.length : 0 }} equipos
               </p>
             </div>
             <div v-if="user.rol === 'admin'">
-              <button @click="borrarLiga(liga.id)" class="btn-danger-custom" style="padding: 8px 12px; font-size: 0.875rem;">
+              <button
+                @click="borrarLiga(liga.id)"
+                class="btn-danger-custom"
+                style="padding: 8px 12px; font-size: 0.875rem"
+              >
                 <i class="fas fa-trash"></i>
               </button>
             </div>
           </div>
-          
-          <router-link :to="'/ligas/' + liga.id" class="btn-custom" style="width: 100%; text-align: center;">
+
+          <router-link
+            :to="'/ligas/' + liga.id"
+            class="btn-custom"
+            style="width: 100%; text-align: center"
+          >
             <i class="fas fa-eye"></i> Ver Detalles
           </router-link>
         </div>
@@ -65,23 +92,23 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useUserStore } from '../store/user';
-import { useLigasStore } from '../store/ligas';
+import { ref } from "vue";
+import { useUserStore } from "../store/user";
+import { useLigasStore } from "../store/ligas";
 
 const user = useUserStore().user;
 const ligasStore = useLigasStore();
-const nuevaLiga = ref('');
+const nuevaLiga = ref("");
 
 function crearLiga() {
   if (nuevaLiga.value.trim()) {
     ligasStore.addLiga(nuevaLiga.value.trim());
-    nuevaLiga.value = '';
+    nuevaLiga.value = "";
   }
 }
 
 function borrarLiga(id) {
-  if (confirm('¿Seguro que deseas borrar esta liga?')) {
+  if (confirm("¿Seguro que deseas borrar esta liga?")) {
     ligasStore.removeLiga(id);
   }
 }
@@ -183,7 +210,7 @@ function borrarLiga(id) {
   .main-container {
     padding: 1rem;
   }
-  
+
   .grid-custom {
     grid-template-columns: 1fr;
   }
